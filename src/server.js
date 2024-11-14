@@ -1,26 +1,26 @@
 const Hapi = require("@hapi/hapi");
-const appRoutes = require('./routes');
+const routes = require('./routes');
 
-const startServer = async () => {
-    const apiServer = Hapi.server({
+const initializeServer = async () => {
+    const server = Hapi.server({
         port: 9000,
         host: 'localhost',
         routes: {
             cors: {
                 origin: ['*'],
-                credentials: true
-            }
+                credentials: true,
+            },
         },
     });
 
-    apiServer.route(appRoutes);
+    server.route(routes);
 
-    await apiServer.start();
-    console.log(`Server berjalan pada ${apiServer.info.uri}`);
+    await server.start();
+    console.log(`Server berjalan pada ${server.info.uri}`);
 };
 
 try {
-    startServer();
-} catch (err) {
-    console.log(`Aplikasi error: ${err.message}`);
+    initializeServer();
+} catch (error) {
+    console.error("Aplikasi error: " + error.message);
 }
